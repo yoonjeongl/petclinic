@@ -402,4 +402,11 @@
     </profile>
   </profiles>
 
+  <repositories>
+		<repository>
+			<id>central</id>
+			<url>http://nexusrepo-sonatype-nexus-service.cicd:8081/repository/maven-public/</url>
+		</repository>
+	</repositories>
+ 
 </project>
