@@ -55,7 +55,7 @@ node("maven") {
 					sh "podman login -u $internalRegistry_user ${internalRegistry} --tls-verify=false -p '$internalRegistry_pw'"
 					sh "podman build -f ${baseDir}${baseDeployDir}/Dockerfile -t ${internalRegistry}/${namespace}/${image}:${tag} ${WORKSPACE}  --tls-verify=false"
 					sh "podman push ${imageRegistry}/${namespace}/${image}:${tag} --tls-verify=false"
-					sh "sleep 30000"
+					sh "sleep 300000"
 					sh "podman tag ${imageRegistry}/${namespace}/${image}:${tag} ${imageRegistry}/${image}:latest"
 					sh "podman push ${imageRegistry}/${namespace}/${image}:latest --tls-verify=false"
 				}
