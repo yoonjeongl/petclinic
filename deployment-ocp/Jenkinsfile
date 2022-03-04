@@ -4,8 +4,7 @@ node("maven") {
 	stage(stageName) {
 		echo "**** START : " + stageName
 		
-		git "https://github.com/kkphil83/spring-petclinic.git"
-		
+		git -b main --single-branch  "https://github.com/kkphil83/spring-petclinic.git"		
 	}
 	
 	//-- 환경변수 파일 읽어서 변수값 셋팅
