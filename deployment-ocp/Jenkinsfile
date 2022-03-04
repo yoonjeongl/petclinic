@@ -1,4 +1,4 @@
-node("maven") {
+node("slave") {
 	String stageName = ""
 	stageName = "Get Source"	
 	stage(stageName) {
