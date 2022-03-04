@@ -9,6 +9,7 @@ node("maven") {
 	
 	//-- 환경변수 파일 읽어서 변수값 셋팅
 	def props = readProperties  file:"./deployment-ocp/pipeline-ocp.properties"  // __custom__
+	def version = props["version"]
 	def image = props["image"]
 	def appname = props["appname"]
 	def containername = props["containername"]
@@ -25,7 +26,7 @@ node("maven") {
 
 	// tag를 재정의 함. 이미지 버전이 달라야 배포시 컨테이너에서 인식
 	def now = new Date()
-	def tag = now.format("yyMMdd-HHmmss", TimeZone.getTimeZone('Asia/Seoul'))
+	def tag = version + '_' + now.format("yyMMdd-HHmmss", TimeZone.getTimeZone('Asia/Seoul'))
 
 	try {
 		stageName = "Build maven project"
@@ -76,7 +77,7 @@ node("maven") {
 				sh "oc rollout status deployment.v1.apps/${appname} -n ${namespace}"
 			}else{
 				sh "oc apply -n ${namespace} -f ${baseDir}${baseDeployDir}/${deployment}"
-				sh "oc expose service ${appname} --hostname ${appname}.apps.${ocpClusterDomain} -n ${namespace}"
+				sh "oc expose service ${appname} --hostname ${appname}-${namespace}.apps.${ocpClusterDomain} -n ${namespace}"
 			}
 
 			echo "\n****** RESULT ******\n"
@@ -87,7 +88,7 @@ node("maven") {
 			
 			
 		echo "**** FINISH ALL STAGES : SUCESS"
-		echo " swagger URL : http://${appname}.apps.${ocpClusterDomain}/swagger-ui.html"
+		echo " petclinic URL : http://${appname}-${namespace}.apps.${ocpClusterDomain}/"
 		
 	} catch(e) {
 		currentBuild.result = "FAILED"			
