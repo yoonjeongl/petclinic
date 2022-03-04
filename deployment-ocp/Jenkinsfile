@@ -18,7 +18,7 @@ node("maven") {
 	def namespace = props["namespace"]
 	def skipStages = props["skipStages"]
 	def ocpClusterDomain = props["ocpClusterDomain"]
-	def imageRegistry = props["imageRegistry"]
+	//def imageRegistry = props["imageRegistry"]
 	
 	// OCP internal registry
 	def internalRegistry = props["internalRegistry"]
@@ -53,7 +53,10 @@ node("maven") {
 
 				withCredentials([usernamePassword(credentialsId: 'internalRegistry', usernameVariable: 'internalRegistry_user', passwordVariable: 'internalRegistry_pw')]) {
 					sh "podman login -u $internalRegistry_user ${internalRegistry} --tls-verify=false -p '$internalRegistry_pw'"
-					sh "podman build -f ${baseDir}${baseDeployDir}/Dockerfile -t ${imageRegistry}/${image}:${tag} ${WORKSPACE}  --tls-verify=false"
+					sh "podman build -f ${baseDir}${baseDeployDir}/Dockerfile -t ${internalRegistry}/${namespace}/${image}:${tag} ${WORKSPACE}  --tls-verify=false"
+					sh "podman push ${imageRegistry}/${namespace}/${image}:${tag} --tls-verify=false"
+					sh "podman tag ${imageRegistry}/${namespace}/${image}:${tag} ${imageRegistry}/${image}:latest"
+					sh "podman push ${imageRegistry}/${namespace}/${image}:latest --tls-verify=false"
 				}
 			}
 		}
@@ -69,7 +72,7 @@ node("maven") {
 
 			if(toIntOrNull(existed) > 0){
 				echo "\n******* Rolling Update ***********************\n"
-				sh "oc set image deployment/${appname} ${containername}=${imageRegistry}/${image}:${tag} --record -n ${namespace}"
+				sh "oc set image deployment/${appname} ${containername}=${imageRegistry}/${namespace}/${image}:${tag} --record -n ${namespace}"
 				sh "oc rollout status deployment.v1.apps/${appname} -n ${namespace}"
 			}else{
 				sh "oc apply -n ${namespace} -f ${baseDir}${baseDeployDir}/${deployment}"
