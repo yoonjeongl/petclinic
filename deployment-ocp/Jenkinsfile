@@ -7,7 +7,7 @@ node("maven") {
 		git branch: 'main', url: 'https://github.com/kkphil83/spring-petclinic.git'
 	}
 	
-	//-- 환경변수 파일 읽어서 변수값 셋팅 
+	//-- 환경변수 파일 읽어서 변수값 셋팅
 	def props = readProperties  file:"./deployment-ocp/pipeline-ocp.properties"  // __custom__
 	def version = props["version"]
 	def image = props["image"]
