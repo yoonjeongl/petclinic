@@ -76,7 +76,7 @@ node("maven") {
 				sh "oc rollout status deployment.v1.apps/${appname} -n ${namespace}"
 			}else{
 				sh "oc apply -n ${namespace} -f ${baseDir}${baseDeployDir}/${deployment}"
-				sh "oc expose service ${appname}-svc --hostname ${appname}.apps.${ocpClusterDomain} -n ${namespace}"
+				sh "oc expose service ${appname} --hostname ${appname}.apps.${ocpClusterDomain} -n ${namespace}"
 			}
 
 			echo "\n****** RESULT ******\n"
