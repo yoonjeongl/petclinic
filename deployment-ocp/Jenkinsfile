@@ -73,9 +73,10 @@ node("maven") {
 
 			if(toIntOrNull(existed) > 0){
 				echo "\n******* Rolling Update ***********************\n"
-				sh "oc set image deployment/${appname} ${containername}=${imageRegistry}/${namespace}/${image}:${tag} --record -n ${namespace}"
+				sh "oc set image deployment/${appname} ${containername}=${internalRegistry}/${namespace}/${image}:${tag} --record -n ${namespace}"
 				sh "oc rollout status deployment.v1.apps/${appname} -n ${namespace}"
 			}else{
+				echo "\n******* Initial Deploy ***********************\n"
 				sh "oc apply -n ${namespace} -f ${baseDir}${baseDeployDir}/${deployment}"
 				sh "oc expose service ${appname} --hostname ${appname}-${namespace}.apps.${ocpClusterDomain} -n ${namespace}"
 			}
