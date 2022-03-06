@@ -20,7 +20,7 @@
     <mirror>
       <id>central</id>
       <name>central</name>
-      <url>http://nexusrepo-sonatype-nexus-service:8081/repository/maven-public/</url>
+      <url>http://nexusrepo-sonatype-nexus-service.nexus:8081/repository/maven-public/</url>
       <mirrorOf>*</mirrorOf>
     </mirror>
   </mirrors>
