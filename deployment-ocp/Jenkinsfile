@@ -21,7 +21,7 @@ node("maven") {
 	def ocpClusterDomain = props["ocpClusterDomain"]
 	//def imageRegistry = props["imageRegistry"]
 	
-	// OCP internal registry
+	// OCP internal registry 
 	def internalRegistry = props["internalRegistry"]
 
 	// tag를 재정의 함. 이미지 버전이 달라야 배포시 컨테이너에서 인식 
