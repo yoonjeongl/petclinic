@@ -15,7 +15,7 @@ spec:
         app: petclinic
     spec:
       containers:
-      - image: image-registry.openshift-image-registry.svc:5000/demo-cicd-app/petclinic:latest
+      - image: image-registry.openshift-image-registry.svc:5000/app-1/petclinic:latest
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
