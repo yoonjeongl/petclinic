@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: petclinic
+  namespace: openshift-gitops
+spec:
+  destination:
+    namespace: app-1
+    server: https://kubernetes.default.svc
+  project: cicd-1
+  source:
+    directory:
+      recurse: true
+    path: gitops-app
+    repoURL: https://github.com/kkphil83/petclinic.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
