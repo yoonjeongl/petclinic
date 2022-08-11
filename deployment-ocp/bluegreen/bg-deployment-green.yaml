@@ -15,7 +15,7 @@ spec:
         app: petclinic-green
     spec:
       containers:
-      - image: image-registry.openshift-image-registry.svc:5000/app-1/petclinic:latest
+      - image: image-registry.openshift-image-registry.svc:5000/app-bg/petclinic:latest
         imagePullPolicy: Always
         livenessProbe:
           failureThreshold: 3
